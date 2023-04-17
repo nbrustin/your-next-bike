@@ -1,4 +1,4 @@
-export const bicycleTypes = [
+export const bicycleCategories = [
   {
     value: 1,
     label: "Road",
