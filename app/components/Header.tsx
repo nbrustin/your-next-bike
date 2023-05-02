@@ -1,4 +1,4 @@
-import Filter from "./Filter";
+import FilterBar from "./FilterBar";
 
 export default function Header() {
   return (
@@ -7,7 +7,7 @@ export default function Header() {
         <h1 className="text-white text-5xl font-bold mb-2">
           Find your next bicycle
         </h1>
-        <Filter />
+        <FilterBar />
       </div>
     </div>
   );

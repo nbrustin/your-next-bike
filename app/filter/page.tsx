@@ -1,14 +1,31 @@
 import { debug } from "console";
+import { BicycleCardType } from "../page";
+import BicycleCard from "../components/BicycleCard";
 
 interface FilterParams {
   category?: string;
+  makerId?: string;
 }
-debugger;
-const fetchBicyclesByType = async (filterParams: FilterParams) => {
-  debugger;
-  console.log(filterParams);
+const fetchBicyclesByType = async (searchParams: FilterParams) => {
+  console.log(searchParams);
+
+  const pageUrl = new URL("https://api.99spokes.com/v1/bikes");
+
+  pageUrl.searchParams.set("limit", "12");
+  pageUrl.searchParams.set("include", "*");
+
+  if (searchParams.category) {
+    pageUrl.searchParams.set("category", searchParams.category);
+  }
+
+  if (searchParams.makerId) {
+    pageUrl.searchParams.set("makerId", searchParams.makerId);
+  }
+
   const bicycles = await fetch(
-    `https://api.99spokes.com/v1/bikes?category=${filterParams?.category}&limit=12`,
+    pageUrl.toString(),
+    // `https://api.99spokes.com/v1/bikes?include=*&category=${searchParams?.category}&makerId=${searchParams.makerId}&limit=12`,
+
     {
       headers: {
         Authorization: "Bearer " + process.env.API_KEY,
@@ -19,13 +36,20 @@ const fetchBicyclesByType = async (filterParams: FilterParams) => {
   console.log(res);
   return res.items;
 };
-debugger;
 
 export default async function Filter({
-  filterParams,
+  searchParams,
 }: {
-  filterParams: FilterParams;
+  searchParams: FilterParams;
 }) {
-  const bicylces = await fetchBicyclesByType(filterParams);
-  return <div>Filter Page</div>;
+  const bicycles = await fetchBicyclesByType(searchParams);
+  return (
+    <>
+      <div className="py-3 px-36 mt-10 flex flex-wrap justify-center">
+        {bicycles.map((bicycle: BicycleCardType) => (
+          <BicycleCard key={bicycle.id} bicycle={bicycle} />
+        ))}
+      </div>
+    </>
+  );
 }
