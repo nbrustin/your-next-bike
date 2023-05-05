@@ -1,13 +1,14 @@
 import { debug } from "console";
 import { BicycleCardType } from "../page";
 import BicycleCard from "../components/BicycleCard";
+import FilterBar from "../components/FilterBar";
 
 interface FilterParams {
   category?: string;
   makerId?: string;
 }
 const fetchBicyclesByType = async (searchParams: FilterParams) => {
-  console.log(searchParams);
+  // console.log(searchParams);
 
   const pageUrl = new URL("https://api.99spokes.com/v1/bikes");
 
@@ -33,7 +34,7 @@ const fetchBicyclesByType = async (searchParams: FilterParams) => {
     }
   );
   const res = await bicycles.json();
-  console.log(res);
+  // console.log(res);
   return res.items;
 };
 
@@ -45,6 +46,7 @@ export default async function Filter({
   const bicycles = await fetchBicyclesByType(searchParams);
   return (
     <>
+      <FilterBar />
       <div className="py-3 px-36 mt-10 flex flex-wrap justify-center">
         {bicycles.map((bicycle: BicycleCardType) => (
           <BicycleCard key={bicycle.id} bicycle={bicycle} />

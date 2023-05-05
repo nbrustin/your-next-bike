@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Inter } from "next/font/google";
 import styles from "./page.module.css";
 import Footer from "./components/Footer";
+import FilterBar from "./components/FilterBar";
 
 export interface BicycleCardType {
   id: string;
@@ -36,6 +37,7 @@ export default async function Home() {
   return (
     <main>
       <Header />
+      <FilterBar />
       <div className="py-3 px-36 mt-10 flex flex-wrap justify-center">
         {bicycles.map((bicycle: BicycleCardType) => (
           <BicycleCard key={bicycle.id} bicycle={bicycle} />

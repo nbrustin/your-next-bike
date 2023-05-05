@@ -2,9 +2,8 @@
 
 import { bicycleCategories } from "../../data/bicycleCategories";
 import { bicycleBrands } from "@/data/bicycleBrands";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 interface BicycleCategory {
   value: number;
   label: string;
@@ -17,6 +16,16 @@ interface BicycleBrand {
 
 export default function FilterBar() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const [category, setCategory] = useState("");
+
+  useEffect(() => {
+    const category = searchParams.get("category");
+    console.log(category);
+    if (category) {
+      setCategory(category as string);
+    }
+  }, []);
 
   const handleBikeCategory = (category: string) => {
     debugger;
@@ -32,10 +41,16 @@ export default function FilterBar() {
       <h1 className="text-white text-5xl font-bold mb-2">Filter</h1>
       <select
         className="mr-2"
+        value={category}
         onChange={(e) => handleBikeCategory(e.target.value.toLowerCase())}
       >
         {bicycleCategories.map((bicycleType: BicycleCategory) => (
-          <option key={bicycleType.value}>{bicycleType.label}</option>
+          <option
+            key={bicycleType.value}
+            value={bicycleType.label.toLowerCase()}
+          >
+            {bicycleType.label}
+          </option>
         ))}
       </select>
       <select onChange={(e) => handleBikeBrand(e.target.value.toLowerCase())}>
