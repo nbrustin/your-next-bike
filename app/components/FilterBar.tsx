@@ -18,17 +18,20 @@ export default function FilterBar() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [category, setCategory] = useState("");
+  const [makerId, setmakerId] = useState("");
 
   useEffect(() => {
     const category = searchParams.get("category");
+    const makerId = searchParams.get("makerId");
     console.log(category);
     if (category) {
       setCategory(category as string);
     }
+
+    if (makerId) setmakerId(makerId);
   }, []);
 
   const handleBikeCategory = (category: string) => {
-    debugger;
     router.push(`/filter?category=${category}`);
   };
 
@@ -53,9 +56,17 @@ export default function FilterBar() {
           </option>
         ))}
       </select>
-      <select onChange={(e) => handleBikeBrand(e.target.value.toLowerCase())}>
+      <select
+        value={makerId}
+        onChange={(e) => handleBikeBrand(e.target.value.toLowerCase())}
+      >
         {bicycleBrands.map((bicycleBrand: BicycleBrand) => (
-          <option key={bicycleBrand.value}>{bicycleBrand.label}</option>
+          <option
+            key={bicycleBrand.value}
+            value={bicycleBrand.label.toLowerCase()}
+          >
+            {bicycleBrand.label}
+          </option>
         ))}
       </select>
     </div>
