@@ -14,6 +14,7 @@ interface BicycleBrand {
   label: string;
 }
 
+//TODO: this will take type and model
 export default function FilterBar() {
   const router = useRouter();
   const searchParams = useSearchParams();

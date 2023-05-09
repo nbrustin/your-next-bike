@@ -16,7 +16,7 @@ export interface BicycleCardType {
   model: string;
   category: string;
 }
-
+//fart. is this different? well is it?
 const fetchBicycles = async (): Promise<BicycleCardType[]> => {
   const bicycles = await fetch(
     `https://api.99spokes.com/v1/bikes?include=*&limit=12`,
@@ -27,13 +27,11 @@ const fetchBicycles = async (): Promise<BicycleCardType[]> => {
     }
   );
   const res = await bicycles.json();
-  console.log(res);
   return res.items;
 };
 
 export default async function Home() {
   const bicycles = await fetchBicycles();
-  console.log("hello");
   return (
     <main>
       <Header />
