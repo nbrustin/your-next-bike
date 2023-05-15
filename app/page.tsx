@@ -24,7 +24,8 @@ const fetchBicycles = async (): Promise<BicycleCardType[]> => {
     {
       headers: {
         accept: "application/json",
-        Authorization: `Bearer ${process.env.API_KEY}`,
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
+        // Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50TmFtZSI6Im5pY2ticnVzdGluIiwidmVyc2lvbiI6MSwiaWF0IjoxNjc0NDk2NTA3fQ.lgw086V0ImBWRCb08NCZAHd_MskeRYLqaVVvsLhpcFQ`,
       },
     }
   );
