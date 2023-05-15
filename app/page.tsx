@@ -24,7 +24,7 @@ const fetchBicycles = async (): Promise<BicycleCardType[]> => {
     {
       headers: {
         accept: "application/json",
-        Authorization: `Bearer ${process.env.API_KEY}`,
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
       },
     }
   );
@@ -43,7 +43,7 @@ export default function Home() {
     const query = new URLSearchParams({ category, brand }).toString();
     fetch(`https://api.99spokes.com/v1/bikes?include=*&limit=12&${query}`, {
       headers: {
-        Authorization: "Bearer " + process.env.API_KEY,
+        Authorization: "Bearer " + process.env.NEXT_PUBLIC_API_KEY,
       },
     })
       .then((res) => res.json())
