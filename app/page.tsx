@@ -40,8 +40,14 @@ export default function Home() {
   }, []);
 
   const handleFilterChange = (category: string, brand: string) => {
-    const query = new URLSearchParams({ category, brand }).toString();
-    fetch(`https://api.99spokes.com/v1/bikes?include=*&limit=12&${query}`, {
+    const pageUrl = new URL(
+      "https://api.99spokes.com/v1/bikes?include=*&limit=12"
+    );
+
+    if (category) pageUrl.searchParams.set("category", category.toLowerCase());
+    if (brand) pageUrl.searchParams.set("makerId", brand.toLowerCase());
+
+    fetch(pageUrl.href, {
       headers: {
         Authorization: "Bearer " + process.env.NEXT_PUBLIC_API_KEY,
       },
