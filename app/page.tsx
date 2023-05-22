@@ -48,16 +48,21 @@ export default function Home() {
 
   const handleFilterChange = (
     category: string,
+    subCategory: string,
     brand: string,
-    price: string
+    price: string,
+    year: string
   ) => {
     const pageUrl = new URL(
       "https://api.99spokes.com/v1/bikes?include=*&limit=12"
     );
     debugger;
     if (category) pageUrl.searchParams.set("category", category.toLowerCase());
+    if (subCategory)
+      pageUrl.searchParams.set("subcategory", subCategory.toLowerCase());
     if (brand) pageUrl.searchParams.set("makerId", brand.toLowerCase());
     if (price) pageUrl.searchParams.set("price", price);
+    if (year) pageUrl.searchParams.set("year", year);
 
     fetch(pageUrl.href, {
       headers: {
@@ -70,7 +75,7 @@ export default function Home() {
 
   return (
     <main>
-      <FilterBar onChange={handleFilterChange} />
+      <FilterBar handleFilterChange={handleFilterChange} />
       <div className="py-3 px-36 mt-10 flex flex-wrap justify-center">
         {bicycles?.map((bicycle: BicycleCardType) => (
           <BicycleCard key={bicycle.id} bicycle={bicycle} />

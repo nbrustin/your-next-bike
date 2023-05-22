@@ -1,22 +1,22 @@
 export const bicycleBrands = [
   {
-    value: 1,
+    value: "specialized",
     label: "Specialized",
   },
   {
-    value: 2,
+    value: "trek",
     label: "Trek",
   },
   {
-    value: 3,
+    value: "canyon",
     label: "Canyon",
   },
   {
-    value: 4,
+    value: "bianchi",
     label: "Bianchi",
   },
   {
-    value: 5,
+    value: "cervelo",
     label: "Cervelo",
   },
 ];

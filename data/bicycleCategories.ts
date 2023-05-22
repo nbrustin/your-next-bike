@@ -1,22 +1,22 @@
 export const bicycleCategories = [
   {
-    value: 1,
+    value: "road",
     label: "Road",
   },
   {
-    value: 2,
+    value: "mountain",
     label: "Mountain",
   },
   {
-    value: 3,
+    value: "urban",
     label: "Urban",
   },
   {
-    value: 4,
+    value: "youth",
     label: "Youth",
   },
   {
-    value: 5,
+    value: "bmx",
     label: "BMX",
   },
 ];

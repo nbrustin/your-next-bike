@@ -7,7 +7,7 @@ interface Props {
 
 export default function BicycleCard({ bicycle }: Props) {
   return (
-    <div className="w-64 h-72 m-3 rounded overflow-hidden border cursor-pointer">
+    <div className="w-64 h-72 m-3 rounded overflow-hidden border cursor-pointer p-3">
       <Link href={bicycle.url} target="_blank" rel="noopener noreferrer">
         <img src={bicycle.thumbnailUrl} alt="bicycle" className="w-full h-36" />
         <div className="p-1">

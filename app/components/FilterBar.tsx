@@ -4,60 +4,125 @@ import { useState } from "react";
 import { bicycleCategories } from "../../data/bicycleCategories";
 import { bicycleBrands } from "../../data/bicycleBrands";
 import bicyclePrices from "@/data/bicyclePrices";
+import bicycleSubCategories from "@/data/bicycleSubCategories";
+import bicycleYears from "@/data/bicycleYear";
 
 interface FilterBarProps {
-  onChange: (category: string, brand: string, price: string) => void;
+  handleFilterChange: (
+    category: string,
+    subCategory: string,
+    brand: string,
+    price: string,
+    year: string
+  ) => void;
 }
 
-export default function FilterBar({ onChange }: FilterBarProps) {
+const currentYear = new Date().getFullYear().toString();
+
+export default function FilterBar({ handleFilterChange }: FilterBarProps) {
   const [category, setCategory] = useState("");
+  const [subCategory, setSubCategory] = useState("");
   const [brand, setBrand] = useState("");
   const [price, setPrice] = useState("");
+  const [year, setYear] = useState(currentYear);
 
-  const handleCategoryChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    setCategory(event.target.value);
-    onChange(category, brand, price);
-  };
-
-  const handleBrandChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setBrand(event.target.value);
-    onChange(category, brand, price);
-  };
-
-  const handlePriceChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     debugger;
-    setPrice(event.target.value);
-    onChange(category, brand, price);
+    const { name, value } = event.target;
+
+    setValue(name, value);
+    setFilterChange(name, value);
+  };
+
+  const setValue = (name: string, value: string) => {
+    switch (name) {
+      case "category":
+        setCategory(value);
+        break;
+      case "brand":
+        setBrand(value);
+        break;
+      case "price":
+        setPrice(value);
+        break;
+      case "subCategory":
+        setSubCategory(value);
+        break;
+      case "year":
+        setYear(value);
+        break;
+      default:
+        break;
+    }
+  };
+
+  const setFilterChange = (name: string, value: string) => {
+    handleFilterChange(
+      name === "category" ? value : category,
+      name === "subCategory" ? value : subCategory,
+      name === "brand" ? value : brand,
+      name === "price" ? value : price,
+      name === "year" ? value : year
+    );
   };
 
   return (
     <div className="h-20 bg-gradient-to-r from-[#0f1f47] to-[#5f6984] p-6 text-center ">
-      <select value={category} onChange={handleCategoryChange}>
+      <select value={category} name="category" onChange={handleChange}>
         <option value="">All Categories</option>
-        {bicycleCategories.map((category) => (
-          <option key={category.value} value={category.label}>
-            {category.label}
+        {bicycleCategories.map((categoryItem) => (
+          <option key={categoryItem.value} value={categoryItem.value}>
+            {categoryItem.label}
           </option>
         ))}
       </select>
-      <select className="mx-2" value={brand} onChange={handleBrandChange}>
+      <select
+        value={subCategory}
+        className="mx-2"
+        name="subCategory"
+        onChange={handleChange}
+      >
+        <option value="">All Sub Categories</option>
+        {bicycleSubCategories.map((subCategoryItem) => (
+          <option key={subCategoryItem.value} value={subCategoryItem.value}>
+            {subCategoryItem.label}
+          </option>
+        ))}
+      </select>
+      <select
+        className="mr-2"
+        name="brand"
+        value={brand}
+        onChange={handleChange}
+      >
         <option value="">All Brands</option>
-        {bicycleBrands.map((brand) => (
-          <option key={brand.value} value={brand.label}>
-            {brand.label}
+        {bicycleBrands.map((brandItem) => (
+          <option key={brandItem.value} value={brandItem.value}>
+            {brandItem.label}
           </option>
         ))}
       </select>
-      <select value={price} onChange={handlePriceChange}>
+      <select
+        className="hidden"
+        value={price}
+        name="price"
+        onChange={handleChange}
+      >
         <option value="">All Prices</option>
-        {bicyclePrices.map((bicyclePrice) => (
+        {bicyclePrices.map((bicyclePriceItem) => (
           <option
             key={crypto.randomUUID()}
-            value={bicyclePrice.value.join("-")}
+            value={bicyclePriceItem.value.join("-")}
           >
-            {bicyclePrice.label}
+            {bicyclePriceItem.label}
+          </option>
+        ))}
+      </select>
+      <select value={year} name="year" onChange={handleChange}>
+        <option value="">All Years</option>
+        {bicycleYears.map((bicycleYearItem) => (
+          <option key={bicycleYearItem} value={bicycleYearItem}>
+            {bicycleYearItem}
           </option>
         ))}
       </select>
