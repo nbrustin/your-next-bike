@@ -41,9 +41,11 @@ const fetchBicycles = async (): Promise<BicycleCardType[]> => {
 
 export default function Home() {
   const [bicycles, setBicycles] = useState<BicycleCardType[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     fetchBicycles().then((data) => setBicycles(data));
+    setIsLoading(false);
   }, []);
 
   const handleFilterChange = (
@@ -53,10 +55,10 @@ export default function Home() {
     price: string,
     year: string
   ) => {
+    setIsLoading(true);
     const pageUrl = new URL(
       "https://api.99spokes.com/v1/bikes?include=*&limit=12"
     );
-    debugger;
     if (category) pageUrl.searchParams.set("category", category.toLowerCase());
     if (subCategory)
       pageUrl.searchParams.set("subcategory", subCategory.toLowerCase());
@@ -70,16 +72,25 @@ export default function Home() {
       },
     })
       .then((res) => res.json())
-      .then((data) => setBicycles(data.items));
+      .then((data) => {
+        setBicycles(data.items);
+        setIsLoading(false);
+      });
   };
 
   return (
     <main>
       <FilterBar handleFilterChange={handleFilterChange} />
       <div className="py-3 px-36 mt-10 flex flex-wrap justify-center">
-        {bicycles?.map((bicycle: BicycleCardType) => (
-          <BicycleCard key={bicycle.id} bicycle={bicycle} />
-        ))}
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : bicycles.length === 0 ? (
+          <p>No Bicycles Match Your Search</p>
+        ) : (
+          bicycles.map((bicycle: BicycleCardType) => (
+            <BicycleCard key={bicycle.id} bicycle={bicycle} />
+          ))
+        )}
       </div>
     </main>
   );
