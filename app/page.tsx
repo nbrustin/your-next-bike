@@ -6,6 +6,12 @@ import { useEffect, useState } from "react";
 import BicycleCard from "./components/BicycleCard";
 import FilterBar from "./components/FilterBar";
 
+type BicyclePrices = [
+  currency: string,
+  amount: number,
+  discountedAmount: number,
+  discount: number
+];
 export interface BicycleCardType {
   id: string;
   url: string;
@@ -15,10 +21,10 @@ export interface BicycleCardType {
   year: number;
   model: string;
   category: string;
+  prices: BicyclePrices;
 }
 
 const fetchBicycles = async (): Promise<BicycleCardType[]> => {
-  debugger;
   const bicycles = await fetch(
     `https://api.99spokes.com/v1/bikes?include=*&limit=12`,
     {
@@ -28,6 +34,7 @@ const fetchBicycles = async (): Promise<BicycleCardType[]> => {
       },
     }
   );
+  debugger;
   const res = await bicycles.json();
   return res.items;
 };
@@ -39,13 +46,18 @@ export default function Home() {
     fetchBicycles().then((data) => setBicycles(data));
   }, []);
 
-  const handleFilterChange = (category: string, brand: string) => {
+  const handleFilterChange = (
+    category: string,
+    brand: string,
+    price: string
+  ) => {
     const pageUrl = new URL(
       "https://api.99spokes.com/v1/bikes?include=*&limit=12"
     );
-
+    debugger;
     if (category) pageUrl.searchParams.set("category", category.toLowerCase());
     if (brand) pageUrl.searchParams.set("makerId", brand.toLowerCase());
+    if (price) pageUrl.searchParams.set("price", price);
 
     fetch(pageUrl.href, {
       headers: {
