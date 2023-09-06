@@ -5,6 +5,7 @@ import useSWR from "swr";
 import { useEffect, useState } from "react";
 import BicycleCard from "./components/BicycleCard";
 import FilterBar from "./components/FilterBar";
+import LoadingWheel from "./components/LoadingWheel";
 
 type BicyclePrices = [
   currency: string,
@@ -34,7 +35,6 @@ const fetchBicycles = async (): Promise<BicycleCardType[]> => {
       },
     }
   );
-  debugger;
   const res = await bicycles.json();
   return res.items;
 };
@@ -83,8 +83,9 @@ export default function Home() {
       <FilterBar handleFilterChange={handleFilterChange} />
       <div className="py-3 px-36 mt-10 flex flex-wrap justify-center">
         {isLoading ? (
-          <p>Loading...</p>
-        ) : bicycles.length === 0 ? (
+          <LoadingWheel />
+        ) : // <p>Loading...</p>
+        bicycles.length === 0 ? (
           <p>No Bicycles Match Your Search</p>
         ) : (
           bicycles.map((bicycle: BicycleCardType) => (

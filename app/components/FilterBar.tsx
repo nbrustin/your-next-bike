@@ -27,7 +27,6 @@ export default function FilterBar({ handleFilterChange }: FilterBarProps) {
   const [year, setYear] = useState(currentYear);
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    debugger;
     const { name, value } = event.target;
 
     setValue(name, value);
