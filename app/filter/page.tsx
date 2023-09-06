@@ -46,7 +46,7 @@ export default async function Filter({
   const bicycles = await fetchBicyclesByType(searchParams);
   return (
     <>
-      <FilterBar />
+      {/* <FilterBar /> */}
       <div className="py-3 px-36 mt-10 flex flex-wrap justify-center">
         {bicycles.map((bicycle: BicycleCardType) => (
           <BicycleCard key={bicycle.id} bicycle={bicycle} />
