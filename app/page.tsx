@@ -1,11 +1,11 @@
 "use client";
 
-import useSWR from "swr";
-
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import BicycleCard from "./components/BicycleCard";
 import FilterBar from "./components/FilterBar";
 import LoadingWheel from "./components/LoadingWheel";
+import ReactPaginate from "react-paginate";
 
 type BicyclePrices = [
   currency: string,
@@ -35,13 +35,21 @@ const fetchBicycles = async (): Promise<BicycleCardType[]> => {
       },
     }
   );
+  debugger;
   const res = await bicycles.json();
   return res.items;
 };
 
+const RESULTS_PER_PAGE = 12;
+// const handlePageClick = ({event<HTMLButtonElement>}) => {
+//   const newOffset = event.selected * itemsPerPage)
+// }
+
 export default function Home() {
   const [bicycles, setBicycles] = useState<BicycleCardType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [itemOffset, setItemOffset] = useState(0);
+  const [itemsPerPage, setItemsPerPage] = useState(12);
 
   useEffect(() => {
     fetchBicycles().then((data) => setBicycles(data));
@@ -84,8 +92,7 @@ export default function Home() {
       <div className="py-3 px-36 mt-10 flex flex-wrap justify-center">
         {isLoading ? (
           <LoadingWheel />
-        ) : // <p>Loading...</p>
-        bicycles.length === 0 ? (
+        ) : bicycles.length === 0 ? (
           <p>No Bicycles Match Your Search</p>
         ) : (
           bicycles.map((bicycle: BicycleCardType) => (
@@ -93,6 +100,27 @@ export default function Home() {
           ))
         )}
       </div>
+      <div id="container"></div>
+      <ReactPaginate
+        // className="flex justify-center items-center"
+        breakLabel="..."
+        nextLabel="next >"
+        // onPageChange={handlePageClick}
+        pageRangeDisplayed={5}
+        pageCount={24}
+        previousLabel="< previous"
+        renderOnZeroPageCount={null}
+        containerClassName="flex justify-center items-center mt-4 lg:mt-8"
+        pageClassName="mx-1"
+        pageLinkClassName="block w-8 h-8 leading-tight text-center border border-gray-300 hover:border-blue-500 hover:bg-blue-500 hover:text-white"
+        previousClassName="mx-1"
+        previousLinkClassName="block w-8 h-8 leading-tight text-center border border-gray-300 hover:border-blue-500 hover:bg-blue-500 hover:text-white"
+        nextClassName="mx-1"
+        nextLinkClassName="block w-8 h-8 leading-tight text-center border border-gray-300 hover:border-blue-500 hover:bg-blue-500 hover:text-white"
+        breakClassName="mx-1"
+        breakLinkClassName="block w-8 h-8 leading-tight text-center border border-gray-300 hover:border-blue-500"
+        activeClassName="border-blue-500 bg-blue-500 text-white"
+      />
     </main>
   );
 }
